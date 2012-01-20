@@ -52,7 +52,7 @@ def gkw(request):
                         comp_name=htmlsource('h1')('a')[1].text #解析出公司名称
                         ws.write(row,0,comp_name)
                         column=1
-                        for item in tag_a:
+                        for item in tag_a[:-1]:#最后一个元素非关键词，故不返回
                             kw=pq(item).text()    #解析出关键词
                             index=kw.find('(',0)     #判断是否有括号
                             if index==-1:
