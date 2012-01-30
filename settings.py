@@ -82,7 +82,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfResponseMiddleware',
 )
 
-ROOT_URLCONF = 'gkw.urls'
+ROOT_URLCONF = 'get-key-words.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
