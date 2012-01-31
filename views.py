@@ -75,6 +75,10 @@ def keyword_parse(keyword):
     if keyword[-1]==')':
         brackets_index=keyword.rfind('(')
         keyword=keyword[:brackets_index]
+    #切掉短横线及其后面字符
+    dash_index=keyword.rfind(' -')
+    if dash_index!=-1:
+        keyword=keyword[:dash_index]
     #最后一个单词是数字的切掉
     last_space_index=keyword.rfind(' ')
     if keyword[last_space_index+1:].isdigit():
