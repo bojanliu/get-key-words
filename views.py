@@ -45,19 +45,43 @@ class DatamineThread(threading.Thread):
                 for item in tag_a[:-1]:
                     #解析出关键词
                     keyword=pq(item).text()
-                    #判断是否有括号
-                    brackets_index=keyword.find('(',0)
-                    #无括号，保留全部字符
-                    if brackets_index==-1:
-                        keyword_list.append(keyword)  
-                    #有括号，切掉括号及其后面字符
-                    else:
-                        keyword_list.append(keyword[:brackets_index-1])
+                    #调用关键词处理函数
+                    keyword=keyword_parse(keyword)
+                    #全是数字的关键词不进入列表
+                    if not keyword.isdigit():
+                        keyword_list.append(keyword)
                 #去掉重复关键词
                 keyword_list=set(keyword_list)
                 #存储关键词字典，结构为{showroom:['关键词','关键词']}
                 keyword_dic[showroom]=keyword_list
             self.out_queue.task_done()
+
+#关键词处理函数
+def keyword_parse(keyword):
+    keyword=keyword
+    #切掉分号及其后面字符
+    semicolon_index=keyword.find(';')
+    if semicolon_index!=-1:
+        keyword=keyword[:semicolon_index]
+    #切掉斜杠及其后面字符
+    slash_index=keyword.find('/')
+    if slash_index!=-1:
+        keyword=keyword[:slash_index]
+    #切掉逗号及其后面字符
+    comma_index=keyword.find(',')
+    if comma_index!=-1:
+        keyword=keyword[:comma_index]
+    #切掉最后一个括号
+    if keyword[-1]==')':
+        brackets_index=keyword.rfind('(')
+        keyword=keyword[:brackets_index]
+    #最后一个单词是数字的切掉
+    last_space_index=keyword.rfind(' ')
+    if keyword[last_space_index+1:].isdigit():
+        keyword=keyword[:last_space_index]
+    #单词首字母大写
+    keyword=keyword.title()
+    return keyword
 
 def main():
     global keyword_dic
