@@ -168,6 +168,11 @@ def process_post_data(request):
     #原始数据结构变为[['','',''],['','','']]
     for item in data_first:
         data_second.append(item.split('\t'))
+    #如果原始url有参数则去掉参数
+    for item in data_second:
+        if item[6].count('?')==2:
+            q_mark_index=item[6].rfind('?')
+            item[6]=item[6][36:q_mark_index]
     #提取所需字段，创建为字典结构{'url':['系列名','广告组名']}
     for item in data_second:
         data_dic[item[6]]=[item[0],item[1]]
