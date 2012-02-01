@@ -160,8 +160,7 @@ def process_post_data(request):
     #按行切开
     data_first=data_first.split('\n')
     #如果首行为标题则删除
-    if data_first[0].startswith('Campaign'):
-        data_first.pop(0)
+    data_first.pop(0)
     #如果末行是空则删除
     if data_first[-1]=='':
         data_first.pop(-1)
@@ -186,7 +185,8 @@ def process_post_data(request):
 
 
 def gkw(request):
-    if request.method=='POST' and request.POST['data']:     
+    #数据合法性判断：必须是以字符'Campaign'开始
+    if request.method=='POST' and request.POST['data'].startswith('Campaign'):     
 
         #调用原始数据处理模块
         process_post_data(request)
