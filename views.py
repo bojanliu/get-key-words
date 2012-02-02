@@ -23,7 +23,7 @@ class ThreadUrl(threading.Thread):
             showroom=self.queue.get()
             #抓取HTML
             htmlsource=pq(url=showroom) 
-            self.out_queue.put(htmlsource)
+            self.out_queue.put([htmlsource,showroom])
             self.queue.task_done()
 
 class DatamineThread(threading.Thread):
@@ -32,13 +32,14 @@ class DatamineThread(threading.Thread):
         self.out_queue=out_queue
     def run(self):
         while True:
-            htmlsource=self.out_queue.get()
+            htmlsource_showroom=self.out_queue.get()
+            htmlsource=htmlsource_showroom[0]
             #解析出关键词所在<a>标签
             tag_a=htmlsource('.name')
             #判断抓到的页面是否有.name类名，解决有些showroom的under construction问题。
             if htmlsource('.name').html()!=None:
-                #解析出showroom，此处url的用处是作为key与用户提交的数据进行配对。
-                showroom=htmlsource('#nav').find('a').attr('href')
+                #此处showroom的用处是作为key与用户提交的数据进行配对。
+                showroom=htmlsource_showroom[1]
                 #存储关键词的列表
                 keyword_list=[]
                 #tag_a列表最后一个元素不是关键词，故切掉。
@@ -168,19 +169,13 @@ def process_post_data(request):
     for item in data_first:
         data_second.append(item.split('\t'))
     for item in data_second:
-        #如果广告组名有引号则去除引号
-        if item[1].startswith('''"'''):
+        #系列名可能有引号，检查
+        if item[0].startswith('\"'):
+            item[0]=item[0][1:-1]
+        #广告组名可能有引号，检查
+        if item[1].startswith('\"'):
             item[1]=item[1][1:-1]
-        #如果原始url有参数则去掉参数
-        q_mark_index=item[6].rfind('?')
-        #有两个问号的情况
-        if item[6].count('?')==2:
-            item[6]=item[6][36:q_mark_index]
-        #有一个问号的情况
-        elif item[6].count('?')==1:
-            item[6]=item[6][:q_mark_index]
-    #提取所需字段，创建为字典结构{'url':['系列名','广告组名']}
-    for item in data_second:
+        #提取所需字段，创建为字典结构{'url':['系列名','广告组名']}
         data_dic[item[6]]=[item[0],item[1]]
 
 
