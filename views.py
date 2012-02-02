@@ -72,14 +72,22 @@ def keyword_parse(keyword):
     comma_index=keyword.find(',')
     if comma_index!=-1:
         keyword=keyword[:comma_index]
+    #切掉短横线及其后面字符
+    dash_index=keyword.rfind(' -')
+    if dash_index!=-1:
+        keyword=keyword[:dash_index]    
     #切掉最后一个括号
     if keyword[-1]==')':
         brackets_index=keyword.rfind('(')
         keyword=keyword[:brackets_index]
-    #切掉短横线及其后面字符
-    dash_index=keyword.rfind(' -')
-    if dash_index!=-1:
-        keyword=keyword[:dash_index]
+    #一个关键词中有2个括号的情况
+    if keyword[-1]==')':
+        brackets_index=keyword.rfind('(')
+        keyword=keyword[:brackets_index]
+    #出现“AAA(BB”这种的情况
+    brackets_index=keyword.rfind('(')
+    if brackets_index!=-1 and keyword[-1]!=')':
+        keyword=keyword[:brackets_index]
     #最后一个单词是数字的切掉
     last_space_index=keyword.rfind(' ')
     if keyword[last_space_index+1:].isdigit():
