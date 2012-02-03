@@ -7,7 +7,7 @@ TEMPLATE_DEBUG = DEBUG
 
 import os
 rel=lambda *x: os.path.join(os.path.abspath(os.path.dirname(__file__)),*x)#处理静态文件之用
-STATIC_PATH=rel('downloads')#处理静态文件之用
+STATIC_PATH=rel('static')#处理静态文件之用
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
