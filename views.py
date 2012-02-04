@@ -198,3 +198,13 @@ def download(request):
         for item in keyword_dic[key_A]:
             writer.writerow([campaign,ad_group,item])
     return response
+
+
+#统计本次操作的相关数据
+def over(request):
+    #广告组个数
+    adgroup_count=len(keyword_dic)
+    #关键词个数
+    keyword_count=sum(map(len,keyword_dic.values()))
+    return render_to_response('over.html',{'adgroup_count':adgroup_count,
+                                           'keyword_count':keyword_count})

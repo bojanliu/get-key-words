@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # (r'^admin/', include(admin.site.urls)),
     (r'^$','get-key-words.views.gkw'),
-    (r'^over/$',direct_to_template,{'template':'over.html'}),
+    (r'^over/$','gkw.views.over'),
     url(r'^download/$','gkw.views.download',name='download'),
     (r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.STATIC_PATH,}),
 )
