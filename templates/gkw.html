@@ -1,35 +1,50 @@
-﻿<html>
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>Adwords关键词批量添加工具</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="/static/jquery-1.7.1.min.js"></script>
+		<script type="text/javascript" src="/static/base.js"></script>
+		<link type="text/css" href="/static/style.css" rel="stylesheet" media="screen"/>
 	</head>
+	
 	<body>
-		<div style='text-align:center;border-bottom:#369 1px dotted;margin-bottom:20px;'>
-			<h3>AdWords关键词批量添加工具</h3>
-		</div>
-		
-		<div id='left' style='float:left;width:280px;height:600px;font-size:13px;
-			border-style:dotted;border-color:#369;border-width:1px;
-			margin-right:20px;'>
-			<h4>功能介绍：</h4>
-			<p>此工具用于为AdWords客户账批量户添加其showroom上的关键词</p>
-			<p>1.自动抓取关键词——无需再手工复制</p>
-			<p>2.直接导入文件——无需再人工添加</p>
-			<p>3.关键词优化——消除特殊字符</p>
-			<h4>使用方法：</h4>
-			<p>1.在AdWords编辑器中切换到“文字广告”标签页；</p>
-			<p>2.为A客户添加关键词，就复制其文字广告数据到下面的输入框内；</p>
-			<p>3.将下载的数据文件另存为CSV格式即可导入AdWords编辑器完成关键词的添加。</p>
-		</div>
-		
-		<div id='right' style='float:left;width:900px;height:600px;'>
-			<form action='' method='post'>
-				<div style='float:left;'>
-					<textarea type='text' name='data' style='width:900px;height:580px;'></textarea>
+		<div id='main'>
+			<div id='top'>
+				<h3>AdWords关键词批量添加工具</h3>
+			</div>
+			
+			<div id='left'>
+				<h4>功能介绍：</h4>
+				<p>此工具用于为AdWords客户账批量户添加其showroom上的关键词</p>
+				<p>1.自动抓取关键词——无需再手工复制</p>
+				<p>2.直接导入文件——无需再人工添加</p>
+				<p>3.关键词优化——消除特殊字符</p>
+				<h4>使用方法：</h4>
+				<p>1.在AdWords编辑器中切换到“文字广告”标签页；</p>
+				<p>2.为A客户添加关键词，就复制其文字广告数据到下面的输入框内；</p>
+				<p>3.将下载的数据文件另存为CSV格式即可导入AdWords编辑器完成关键词的添加。</p>
+			</div>
+			
+			<div id='right'>
+				<form action='' method='post'>
+					<div style='float:left;'>
+						<textarea id='shurukuang' type='text' name='data'></textarea>
+					</div>
+					<div style='float:left;'>
+						<input type='submit' value='提交处理' onclick="showBg('dialog','dialog_content');"/>
+					</div>
+				</form>
+				<!-- JS遮罩层 -->
+				<div id="fullbg"></div>
+				<!--end JS遮罩层-->
+				<!--JS遮罩层上方的对话框-->
+				<div id="dialog">
+					<div id="dialog_content"></div>
+					<div id='guanbi'><a href="#" onclick="closeBg();">提前关闭</a></div>
 				</div>
-				<div id='main' style='float:left;'>
-					<input type='submit' value='提交处理' />
-				</div>
-			</form>
+				<!--JS遮罩层上方的对话框-->
+			</div>
 		</div>
 	</body>
 </html>

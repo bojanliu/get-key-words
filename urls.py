@@ -18,4 +18,5 @@ urlpatterns = patterns('',
     (r'^$','get-key-words.views.gkw'),
     (r'^over/$',direct_to_template,{'template':'over.html'}),
     url(r'^download/$','gkw.views.download',name='download'),
+    (r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.STATIC_PATH,}),
 )
