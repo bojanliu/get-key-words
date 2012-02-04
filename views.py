@@ -88,7 +88,8 @@ class DatamineThread(threading.Thread):
 
 #关键词处理函数
 def keyword_parse(keyword):
-    keyword=keyword
+    #确保是字符类型
+    keyword=str(keyword)
     #切掉分号及其后面字符
     semicolon_index=keyword.find(';')
     if semicolon_index!=-1:
@@ -121,6 +122,8 @@ def keyword_parse(keyword):
     last_space_index=keyword.rfind(' ')
     if keyword[last_space_index+1:].isdigit():
         keyword=keyword[:last_space_index]
+    #去掉首尾可能存在的空格
+    keyword=keyword.strip()
     #单词首字母大写
     keyword=keyword.title()
     return keyword
@@ -185,7 +188,7 @@ def download(request):
     response=HttpResponse(mimetype='text/csv')
     response['Content-Disposition']='attachment; filename='+file_name
     writer=csv.writer(response)
-    writer.writerow(['Campaign','Ad Group','Keyword'])
+    writer.writerow(['Campaign','Ad Group','Keyword','Keyword Type'])
     for key_A in keyword_dic:
         for key_B in data_dic:
             #两个字典中的key(showroom)作匹配，来找到对应的系列名和广告组名
@@ -196,9 +199,15 @@ def download(request):
                 ad_group=data_dic[key_B][1]
                 break
         for item in keyword_dic[key_A]:
-            writer.writerow([campaign,ad_group,item])
+            word_count=item.count(' ')
+            #词数为1则精确匹配
+            if word_count==0:
+                keyword_type='Exact'
+            #否则广泛匹配
+            else:
+                keyword_type='Broad'
+            writer.writerow([campaign,ad_group,item,keyword_type])
     return response
-
 
 #统计本次操作的相关数据
 def over(request):
@@ -208,3 +217,5 @@ def over(request):
     keyword_count=sum(map(len,keyword_dic.values()))
     return render_to_response('over.html',{'adgroup_count':adgroup_count,
                                            'keyword_count':keyword_count})
+    
+    
