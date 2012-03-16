@@ -38,7 +38,7 @@ def process_post_data(request):
                 item[1]=item[1][1:-1]
             #提取所需字段，创建为字典结构{'url':['系列名','广告组名']}
             data_dic[item[6]]=[item[0],item[1]]
-        except IndexError:
+        except Exception, e:
             pass
 
 
@@ -128,7 +128,7 @@ def keyword_parse(keyword):
         #单词首字母大写
         keyword=keyword.title()
     #特殊字符识别不了会报错故令其为空
-    except UnicodeEncodeError:
+    except Exception, e:
         keyword=""
     return keyword
 
